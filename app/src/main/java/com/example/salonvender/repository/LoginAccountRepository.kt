@@ -6,9 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.salonvender.Data_Class.Fill_Profile
 import com.example.salonvender.Data_Class.LoginOtpData_class
 import com.example.salonvender.model.LoginAccountData
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Part
@@ -134,25 +132,36 @@ object LoginAccountRepository {
                         @Part("dob") dob: RequestBody,
                         @Part("vendor_type") vendor_type: RequestBody,
                         @Part("bank_name") bank_name: RequestBody,
+//                        @Part("check_image") check_image: RequestBody,
+                        @Part("location") location: RequestBody,
+//                        @Part("user_image") user_image: RequestBody,
+//                        @Part("id_proof_image") id_proof_image: RequestBody,
                         @Part("account_holder_name") account_holder_name: RequestBody,
+//                        @Part("licence_image") licence_image: RequestBody,
                         @Part("account_no") account_no: RequestBody,
-                        @Part("ifsc_code") ifsc_code: RequestBody,
-                      ): MutableLiveData<Fill_Profile> {
-        val call = RestClient.inst.mRestService!!.upload(email,name,phone,gender,dob,vendor_type,bank_name,account_holder_name,account_no,ifsc_code)
+                        @Part("service_for") service_for: RequestBody,
+                        @Part("ifsc_code") ifsc_code: RequestBody): MutableLiveData<Fill_Profile> {
+//        val call = RestClient.inst.mRestService!!.uploadToApi(email,name,phone,gender,dob,vendor_type,bank_name,account_holder_name,account_no,ifsc_code, location, id_proof_image,licence_image,check_image,user_image,service_for)
+        val call = RestClient.inst.mRestService!!.uploadToApi(email,name,phone,gender,dob,vendor_type,bank_name, location, account_holder_name,account_no, service_for,ifsc_code)
+
         call.enqueue(object : retrofit2.Callback<Fill_Profile> {
             override fun onResponse(
                 call: Call<Fill_Profile>,
                 response: Response<Fill_Profile>
             ) {
                 if (response.isSuccessful) {
-                    Log.d("ajkhdaksd", "lkjsdfsd")
+                    Log.d("hit", "lkjsdfsd")
                     upload.value = response.body()
 
+                }
+                else {
+
+                    Log.d("hit", "lkjsdfsd"+ response)
                 }
             }
 
             override fun onFailure(call: Call<Fill_Profile>, t: Throwable) {
-                Log.d("akjsdasd", t.toString())
+                Log.d("hit", "LoginAccountRepository: "+t.toString())
             }
         })
         return upload

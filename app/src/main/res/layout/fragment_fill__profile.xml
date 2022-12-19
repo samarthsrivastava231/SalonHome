@@ -113,6 +113,7 @@
                                 android:background="@drawable/rectangle"
                                 android:elevation="0dp"
                                 android:hint="Name"
+                                android:inputType="textPersonName"
                                 android:paddingVertical="20dp"
                                 android:paddingStart="20dp"
                                 android:textSize="16sp" />
@@ -161,6 +162,7 @@
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/rectangle"
                                 android:hint="Date of Birth"
+
                                 android:maxLength="20"
                                 android:paddingVertical="20dp"
                                 android:paddingStart="20dp"
@@ -287,7 +289,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:padding="10dp"
-                                    android:text="FREE ESTILO"
+                                    android:text="FREELAUNCER"
                                     app:layout_constraintStart_toStartOf="@+id/salon"
                                     app:layout_constraintTop_toBottomOf="@+id/salon" />
 
@@ -312,6 +314,7 @@
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/rectangle"
                                 android:hint="shop name *"
+                                android:inputType="text"
                                 android:paddingVertical="20dp"
                                 android:paddingStart="20dp"
                                 android:textSize="16dp" />
@@ -358,6 +361,7 @@
                                 android:background="@drawable/rectangle"
                                 android:hint="Location *"
                                 android:paddingVertical="20dp"
+                                android:inputType="text"
                                 android:paddingStart="20dp"
                                 android:textSize="16dp" />
                         </androidx.cardview.widget.CardView>
@@ -426,12 +430,14 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/line2"
+                            android:layout_marginTop="3dp"
                             android:orientation="vertical">
 
                             <androidx.appcompat.widget.AppCompatEditText
                                 android:id="@+id/Bank_Name"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:inputType="text"
                                 android:layout_marginTop="20dp"
                                 android:hint="Bank Name" />
 
@@ -439,6 +445,7 @@
                                 android:id="@+id/Account_holder_name"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:inputType="text"
                                 android:layout_marginTop="20dp"
                                 android:hint="Account holder name" />
 
@@ -447,12 +454,14 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="20dp"
+                                android:inputType="text"
                                 android:hint="Account No." />
 
                             <androidx.appcompat.widget.AppCompatEditText
                                 android:id="@+id/ifsc_code"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:inputType="text"
                                 android:layout_marginTop="20dp"
                                 android:hint="IFSC Code" />
 
@@ -462,8 +471,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="20dp"
                                 android:drawableEnd="@drawable/upload"
-                                android:hint="cancel check"
-                                android:textSize="16sp" />
+                                android:hint="Cancel Check"
+                                android:textSize="19sp" />
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -484,7 +493,7 @@
                                 android:background="@drawable/rectangle"
                                 android:drawableEnd="@drawable/down"
                                 android:drawablePadding="20dp"
-                                android:hint="Gender"
+                                android:hint="Saloon Type"
                                 android:paddingVertical="20dp"
                                 android:paddingStart="20dp"
                                 android:paddingEnd="20dp"
@@ -511,7 +520,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_margin="10dp"
                                     android:padding="10dp"
-                                    android:text="Male"
+                                    android:text="MENS"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -521,7 +530,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="10dp"
                                     android:padding="10dp"
-                                    android:text="Female"
+                                    android:text="WOMENS"
                                     app:layout_constraintStart_toStartOf="@+id/customer_Male"
                                     app:layout_constraintTop_toBottomOf="@+id/customer_Male" />
 
@@ -531,7 +540,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="10dp"
                                     android:padding="10dp"
-                                    android:text="others"
+                                    android:text="UNISEX"
                                     app:layout_constraintStart_toStartOf="@+id/customer_female"
                                     app:layout_constraintTop_toBottomOf="@+id/customer_female" />
 
@@ -556,6 +565,7 @@
                                 android:background="@drawable/rectangle"
                                 android:hint="Password"
                                 android:paddingVertical="20dp"
+                                android:inputType="textPassword"
                                 android:paddingStart="20dp"
                                 android:textSize="16sp" />
                         </androidx.cardview.widget.CardView>
@@ -574,9 +584,10 @@
                             <androidx.appcompat.widget.AppCompatEditText
                                 android:id="@+id/conform_password"
                                 android:layout_width="match_parent"
+                                android:inputType="textPassword"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/rectangle"
-                                android:hint="Conform Password"
+                                android:hint="Confirm Password"
                                 android:paddingVertical="20dp"
                                 android:paddingStart="20dp"
                                 android:textSize="16sp" />

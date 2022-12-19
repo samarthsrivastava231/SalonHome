@@ -9,8 +9,10 @@ import android.app.appsearch.AppSearchResult.RESULT_OK
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.database.Cursor
+import android.database.DataSetObservable
 import android.net.Uri
 import android.os.Bundle
+import android.os.SystemClock
 import android.provider.OpenableColumns
 import android.text.TextUtils
 import android.util.Log
@@ -18,6 +20,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.DatePicker
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
@@ -36,8 +39,13 @@ import com.example.salonvender.singalton_object.PrefManager
 import com.github.dhaval2404.imagepicker.ImagePicker
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.internal.format
 import java.io.File
+import java.text.SimpleDateFormat
+import java.time.Month
+import java.time.Year
 import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -45,10 +53,10 @@ import java.util.regex.Pattern
 
 class Fill_Profile : Fragment() {
 
-    private var Cancel_Check_File: File ?= null
-    private var License_File: File ?= null
-    private var ID_File : File ?= null
-    private var Prof_IMG_FILE: File ?= null
+    var Cancel_Check_File: File ?= null
+    var License_File: File ?= null
+    var ID_File : File ?= null
+    var Prof_IMG_FILE: File ?= null
     private var is_License_Upload_Dialog_Active: Boolean = false
     private var is_ID_Proof_Dialog_Active: Boolean = false
     private var is_Cancel_checkDialog_Active: Boolean = false
@@ -428,7 +436,7 @@ class Fill_Profile : Fragment() {
 //            }
             if (isEmpty(binding.conformPassword)) {
 
-                binding.conformPassword.error = "conform password"
+                binding.conformPassword.error = "confirm password"
             }
 
 
@@ -461,16 +469,26 @@ class Fill_Profile : Fragment() {
 
 
 
-
-            Toast.makeText(
-                activity,
-                PrefManager.getInstance(App.getInstance())!!.userDetail.token,
-                Toast.LENGTH_SHORT
-            ).show()
+//
+//            Toast.makeText(
+//                activity,
+//                PrefManager.getInstance(App.getInstance())!!.userDetail.token,
+//                Toast.LENGTH_SHORT
+//            ).show()
 
             fun getRequestBody(str: String?): RequestBody =
                 str.toString().toRequestBody("text/plain".toMediaTypeOrNull())
 
+
+//            val thumbnailBody: RequestBody = ID_File!!.asRequestBody("image/*".toMediaTypeOrNull())
+//            val ID_Path_part_val: MultipartBody.Part = MultipartBody.Part.Companion.createFormData("id_proof_image", ID_File!!.name, thumbnailBody)
+//            val LicenceBody: RequestBody = License_File!!.asRequestBody("image/*".toMediaTypeOrNull())
+//            val Licence_part_val: MultipartBody.Part = MultipartBody.Part.Companion.createFormData("licence_image", ID_File!!.name, LicenceBody)
+//            val Cancel_CheckBody: RequestBody = Cancel_Check_File!!.asRequestBody("image/*".toMediaTypeOrNull())
+//            val cancel_check_part_val: MultipartBody.Part = MultipartBody.Part.Companion.createFormData("check_image", ID_File!!.name, Cancel_CheckBody)
+//            val userImage_Body: RequestBody = Prof_IMG_FILE!!.asRequestBody("image/*".toMediaTypeOrNull())
+//            val user_Image_part_val: MultipartBody.Part = MultipartBody.Part.Companion.createFormData("user_image", ID_File!!.name, userImage_Body)
+//            Log.d("token", PrefManager.getInstance(App.getInstance())!!.userDetail.token)
 
             Log.d("token", PrefManager.getInstance(App.getInstance())!!.userDetail.token)
             viewModel.upload(
@@ -486,22 +504,38 @@ class Fill_Profile : Fragment() {
                     getRequestBody(binding.ifscCode.text.toString()),*/
 
 
+//                getRequestBody("vendor2@gmail.com"),
                 getRequestBody(binding.email.text.toString()),
-                getRequestBody(binding.name.toString()),
-                getRequestBody(binding.phoneNo.toString()),
-                getRequestBody(binding.Male.toString()),
-                getRequestBody(binding.dob.toString()),
-                getRequestBody(binding.salon.toString()),
-                getRequestBody(binding.BankName.toString()),
-                getRequestBody(binding.AccountHolderName.toString()),
-                getRequestBody(binding.AccountNo.toString()),
-                getRequestBody(binding.ifscCode.toString()),
+                getRequestBody(binding.name.text.toString()),
+//                getRequestBody("Vndor1"),
+                getRequestBody(binding.phoneNo.text.toString()),
+//                getRequestBody("7706064510"),
+//                getRequestBody(binding.Male.text.toString()),
+                getRequestBody("MALE"),
+                getRequestBody(binding.dob.text.toString()),
+//                getRequestBody(binding.salon.text.toString()),
+                getRequestBody("salon"),
+                getRequestBody(binding.BankName.text.toString()),
+//                Cancel_CheckBody,
+//                getRequestBody(Cancel_Check_File?.path.toString()),
+                getRequestBody(binding.location.text.toString()),
+//                getRequestBody(Prof_IMG_FILE?.path.toString()),
+//                userImage_Body,
+//                thumbnailBody,
+//                getRequestBody(ID_File?.path.toString()),
+                getRequestBody(binding.AccountHolderName.text.toString()),
+//                getRequestBody(License_File?.path.toString()),
+//                LicenceBody,
+                getRequestBody(binding.AccountNo.text.toString()),
+//                getRequestBody(binding.GenderCustomer.toString()),
+                getRequestBody("mens"),
+                getRequestBody(binding.ifscCode.text.toString())
 
                 ).observe(viewLifecycleOwner, Observer { it ->
 
-                Toast.makeText(requireActivity(), "go go", Toast.LENGTH_SHORT).show()
-
-                Toast.makeText(requireContext(), "Go Go GO", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(requireActivity(), "go go", Toast.LENGTH_SHORT).show()
+//
+//                Toast.makeText(requireContext(), "Go Go GO", Toast.LENGTH_SHORT).show()
 
 
 
@@ -518,12 +552,15 @@ class Fill_Profile : Fragment() {
 
           */
                     Toast.makeText(requireActivity(), "Accessed ", Toast.LENGTH_SHORT).show()
-
+                    Log.d("apiht", "onCreateView: res")
                     val intent = Intent(activity, HomeActivity::class.java)
                     startActivity(intent)
                     (activity as Activity).overridePendingTransition(0, 0)
                 }
-
+                else {
+                    Toast.makeText(requireContext(), " "+ it.message +" -------> "+ it.result, Toast.LENGTH_SHORT).show()
+                    Log.d("apiht", "onCreateView:results "+ it.message +" -------> "+ it.result)
+                }
 
             })
         }
@@ -532,11 +569,23 @@ class Fill_Profile : Fragment() {
 
 
         binding.dob.setOnClickListener {
-            datePickerDialog!!.show()
+
+            val formatDate = SimpleDateFormat("dd MMMM YYYY" , Locale.US)
+            val cal = Calendar.getInstance()
+            val dataPicDialog =DatePickerDialog( requireContext(),android.R.style.Theme_DeviceDefault_Light_Dialog_MinWidth, DatePickerDialog.OnDateSetListener { datePicker, i, i2, i3 ->
+                val selectDate= Calendar.getInstance()
+                selectDate.set(Calendar.YEAR, i    )
+                selectDate.set(Calendar.MONTH, i2)
+                selectDate.set(Calendar.DAY_OF_MONTH, i3)
+                val  date= formatDate.format(selectDate.time)
+                binding.dob.text= date
+            }, cal[Calendar.YEAR], cal[Calendar.MONTH], cal[ Calendar.DAY_OF_MONTH])
+            dataPicDialog.show()
+            dataPicDialog.datePicker.maxDate=  cal.timeInMillis
+//            dataPicDialog.datePicker.maxDate();
         }
 
 
-        initDatePicker(binding)
 
         return binding.root
     }
@@ -550,24 +599,6 @@ class Fill_Profile : Fragment() {
         return makeDateString(year, month, day)
     }
 
-    private fun initDatePicker(binding: FragmentFillProfileBinding) {
-        val dateSetListener = OnDateSetListener { datePicker, year, month, day ->
-            var month = month
-            month = month + 1
-            val date = makeDateString(year, month, day)
-            binding.dob.text = date.toString()
-            // dateButton.setText(date)
-
-        }
-        val cal = Calendar.getInstance()
-        val year = cal[Calendar.YEAR]
-        val month = cal[Calendar.MONTH]
-        val day = cal[Calendar.DAY_OF_MONTH]
-        val style = AlertDialog.THEME_HOLO_LIGHT
-        datePickerDialog =
-            DatePickerDialog(requireContext(), style, dateSetListener, year, month, day)
-        //datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-    }
 
     private fun makeDateString(year: Int, month: Int, day: Int): String? {
         return getMonthFormat(year) + "/" + month + "/" + day
@@ -605,7 +636,6 @@ class Fill_Profile : Fragment() {
         btn_cancel.setOnClickListener { alert.dismiss() }
         btn_pdf.setOnClickListener {
             alert.dismiss()
-            //                video_type = 2;
             //                Intent intent = new Intent();
             //                intent.setType("application/pdf");
             //                intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -650,11 +680,16 @@ class Fill_Profile : Fragment() {
         if (PROFILE_IMG_UPLOAD_REQ_CODE == 1) {
             if (resultCode == Activity.RESULT_OK) {
                 //Image Uri will not be null for RESULT_OK
-                val uri: Uri = data?.data!!
-                Prof_IMG_FILE = GetFileFromUriUsingBufferReader().getImageFile(
-                    requireActivity(),
-                    data.data!!
-                )
+//                val imageUriTOFile = File(data!!.data.toString())
+//                Toast.makeText(this, " " + imageUriTOFile.absolutePath, Toast.LENGTH_SHORT).show()
+//                etFile.setText(imageUriTOFile.name.toString())
+                val uri: Uri? = data!!.data
+                Prof_IMG_FILE = GetFileFromUriUsingBufferReader().getImageFile(requireContext().applicationContext, data.data)
+//                Prof_IMG_FILE = GetFileFromUriUsingBufferReader().getImageFile(
+//                    requireContext(),
+//                    uri
+//                )
+//                Toast.makeText(context, ""+ Prof_IMG_FILE!!.name +" :-> "+Prof_IMG_FILE!!.path, Toast.LENGTH_SHORT).show()
                 // Use Uri object instead of File to avoid storage permissions
                 binding.profileImage.setImageURI(Uri.parse(Prof_IMG_FILE!!.path))
             } else if (resultCode == ImagePicker.RESULT_ERROR) {
@@ -695,6 +730,7 @@ class Fill_Profile : Fragment() {
 //                    Log.d("aksjdhasd",new Docuuuu().getFile(this,uri).getPath());
 
 
+//                Toast.makeText(context, ""+ ID_File!!.name +" :-> "+ID_File!!.path, Toast.LENGTH_SHORT).show()
                 //                    Log.d("aksjdhasd",new Docuuuu().getFile(this,uri).getPath());
                 binding.UploadIDProof.text = displayName.toString() + ""
 
@@ -708,8 +744,8 @@ class Fill_Profile : Fragment() {
                         requireContext(),
                         data?.data!!
                     )
-                    Toast.makeText(context, " " + ID_File!!.absolutePath, Toast.LENGTH_SHORT)
-                        .show()
+
+//                    Toast.makeText(context, ""+ ID_File!!.name +" :-> "+ID_File!!.path, Toast.LENGTH_SHORT).show()
                     binding.UploadIDProof.text = ID_File!!.name.toString()
 //                AddImage(GetFileFromUriUsingBufferReader().getImageFile(this, data.data!!))
                 } else if (resultCode == ImagePicker.RESULT_ERROR) {
@@ -759,6 +795,7 @@ class Fill_Profile : Fragment() {
 //                    Log.d("aksjdhasd",new Docuuuu().getFile(this,uri).getPath());
 
 
+//                Toast.makeText(context, ""+ License_File!!.name +" :-> "+License_File!!.path, Toast.LENGTH_SHORT).show()
                 //                    Log.d("aksjdhasd",new Docuuuu().getFile(this,uri).getPath());
                 binding.UploadLicense.text = displayName.toString() + ""
 
@@ -772,8 +809,8 @@ class Fill_Profile : Fragment() {
                         requireContext(),
                         data?.data!!
                     )
-                    Toast.makeText(context, " " + License_File!!.absolutePath, Toast.LENGTH_SHORT)
-                        .show()
+
+//                    Toast.makeText(context, ""+ License_File!!.name +" :-> "+License_File!!.path, Toast.LENGTH_SHORT).show()
                         binding.UploadLicense.text = License_File!!.name.toString()
 //                AddImage(GetFileFromUriUsingBufferReader().getImageFile(this, data.data!!))
                 } else if (resultCode == ImagePicker.RESULT_ERROR) {
@@ -826,6 +863,7 @@ class Fill_Profile : Fragment() {
                 //                    Log.d("aksjdhasd",new Docuuuu().getFile(this,uri).getPath());
                 binding.cancelCheck.text= displayName.toString() + ""
 
+//                Toast.makeText(context, ""+ Cancel_Check_File!!.name +" :-> "+Cancel_Check_File!!.path, Toast.LENGTH_SHORT).show()
 //                uploadPdf(GetFileFromUriUsingBufferReader().getFile(this, uri!!))
 
             } else if (ID_REQ_CODE == 1) {
@@ -836,8 +874,8 @@ class Fill_Profile : Fragment() {
                         requireContext(),
                         data?.data!!
                     )
-                    Toast.makeText(context, " " + Cancel_Check_File!!.absolutePath, Toast.LENGTH_SHORT)
-                        .show()
+
+//                    Toast.makeText(context, ""+ Cancel_Check_File!!.name +" :-> "+Cancel_Check_File!!.path, Toast.LENGTH_SHORT).show()
                     binding.cancelCheck.text = Cancel_Check_File!!.name.toString()
 //                AddImage(GetFileFromUriUsingBufferReader().getImageFile(this, data.data!!))
                 } else if (resultCode == ImagePicker.RESULT_ERROR) {

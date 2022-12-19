@@ -32,8 +32,8 @@ public  class GetFileFromUriUsingBufferReader {
         return file
     }
 
-    fun getImageFile(mContext: Context, documentUri: Uri): File {
-        val inputStream = mContext?.contentResolver?.openInputStream(documentUri)
+    fun getImageFile(mContext: Context, documentUri: Uri?): File {
+        val inputStream = mContext?.contentResolver?.openInputStream(documentUri!!)
         var file =  File("")
         inputStream.use { input ->
             file =

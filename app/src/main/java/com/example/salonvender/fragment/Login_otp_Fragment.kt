@@ -97,12 +97,12 @@ class Login_otp_Fragment : Fragment() {
                             PrefManager.getInstance(requireContext())!!.userDetail = it
 
 
-                            val i = Intent(activity, HomeActivity_dash::class.java)
-                        startActivity(i)
-                        (activity as Activity?)!!.overridePendingTransition(0, 0)
+//                            val i = Intent(activity, HomeFragment::class.java)
+//                        startActivity(i)
+//                        (activity as Activity?)!!.overridePendingTransition(0, 0)
 
-//                            requireActivity().supportFragmentManager.beginTransaction()
-//                                .replace(R.id.container, homeFragment).commit()
+                            requireActivity().supportFragmentManager.beginTransaction()
+                                .replace(R.id.container, Fill_Profile()).commit()
 
 
                             //  Toast.makeText(activity, "", Toast.LENGTH_SHORT).show()
@@ -111,8 +111,8 @@ class Login_otp_Fragment : Fragment() {
 
                             Toast.makeText(activity, "Already register", Toast.LENGTH_SHORT).show()
 
-//                            requireActivity().supportFragmentManager.beginTransaction()
-//                                .replace(R.id.container, HomeFragment()).commit()
+                            requireActivity().supportFragmentManager.beginTransaction()
+                                .replace(R.id.container, HomeFragment()).commit()
                         }
                     }else{
                         Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
