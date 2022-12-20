@@ -33,7 +33,8 @@ interface ApiInterface {
                   @Field("account_no") account_no: String,
                   @Field("ifsc_code") ifsc_code: String,
                   ):Call<Fill_Profile>*/
-    @Headers("Content-Type: multipart/form-data", "Content-Type: text/plain")
+
+
     @Multipart
     @POST("saloon/api/update-profile")
     fun uploadToApi(
@@ -44,12 +45,12 @@ interface ApiInterface {
         @Part("dob") dob: RequestBody,
         @Part("vendor_type") vendor_type: RequestBody,
         @Part("bank_name") bank_name: RequestBody,
-//        @Part("check_image") check_image: RequestBody,
+        @Part("check_image") check_image: RequestBody,
         @Part("location") location: RequestBody,
-//        @Part("user_image") user_image: RequestBody,
-//        @Part("id_proof_image") id_proof_image: RequestBody,
+        @Part("user_image") user_image: RequestBody,
+        @Part("id_proof_image") id_proof_image: RequestBody,
         @Part("account_holder_name") account_holder_name: RequestBody,
-//        @Part("licence_image") licence_image: RequestBody,
+        @Part("licence_image") licence_image: RequestBody,
         @Part("account_no") account_no: RequestBody,
         @Part("service_for") service_for: RequestBody,
         @Part("ifsc_code") ifsc_code: RequestBody

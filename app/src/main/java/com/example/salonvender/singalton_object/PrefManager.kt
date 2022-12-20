@@ -37,6 +37,7 @@ class PrefManager(private val context: Context) {
         get() {
             val gson = Gson()
             val json = preferences.getString(KEY_USER_DETAILS, "")
+
             return gson.fromJson(json, LoginOtpData_class::class.java)
         }
         set(user) {

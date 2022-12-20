@@ -33,33 +33,33 @@ class LoginViewModel : ViewModel() {
         @Part("dob") dob: RequestBody,
         @Part("vendor_type") vendor_type: RequestBody,
         @Part("bank_name") bank_name: RequestBody,
-//        @Part("check_image") check_image: RequestBody,
+        @Part("check_image") check_image: RequestBody,
         @Part("location") location: RequestBody,
-//        @Part("user_image") user_image: RequestBody,
-//        @Part("id_proof_image") id_proof_image: RequestBody,
+        @Part("user_image") user_image: RequestBody,
+        @Part("id_proof_image") id_proof_image: RequestBody,
         @Part("account_holder_name") account_holder_name: RequestBody,
-//        @Part("licence_image") licence_image: RequestBody,
+        @Part("licence_image") licence_image: RequestBody,
         @Part("account_no") account_no: RequestBody,
         @Part("service_for") service_for: RequestBody,
         @Part("ifsc_code") ifsc_code: RequestBody
     ): LiveData<Fill_Profile> {
 
-//        upload = LoginAccountRepository.etsProfileApi(email,name,phone,gender,dob,vendor_type,bank_name,account_holder_name,account_no,ifsc_code,id_proof_image,licence_image,user_image,check_image, service_for,location)
-        upload = LoginAccountRepository.etsProfileApi(
-            email,
-            name,
-            phone,
-            gender,
-            dob,
-            vendor_type,
-            bank_name,
-            location,
-            account_holder_name,
-            account_no,
-//            user_image,
-        service_for,
-            ifsc_code
-        )
+        upload = LoginAccountRepository.etsProfileApi(email,name,phone,gender,dob,vendor_type,bank_name,account_holder_name,account_no,ifsc_code,id_proof_image,licence_image,user_image,check_image, service_for,location)
+//        upload = LoginAccountRepository.etsProfileApi(
+//            email,
+//            name,
+//            phone,
+//            gender,
+//            dob,
+//            vendor_type,
+//            bank_name,
+//            location,
+//            account_holder_name,
+//            account_no,
+////            user_image,
+//        service_for,
+//            ifsc_code
+//        )
 
         return upload!!
 

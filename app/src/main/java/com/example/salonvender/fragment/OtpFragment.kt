@@ -90,14 +90,17 @@ class OtpFragment : Fragment() {
 
                         if (it.agent.is_registered == 0) {
 
-                            Toast.makeText(this.activity, "Access", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this.activity, " Please Fill Your Details here ", Toast.LENGTH_SHORT).show()
 
-                            val fillProfile = Fill_Profile()
+                            val fill_profile = Fill_Profile()
                             PrefManager.getInstance(requireContext())!!.keyIsLoggedIn = true
                             PrefManager.getInstance(requireContext())!!.userDetail = it
+                            val bundle = Bundle()
 
+                            bundle.putString("phone", phone)
+                            fill_profile.arguments = bundle
                             requireActivity().supportFragmentManager.beginTransaction()
-                                .replace(R.id.container, Fill_Profile()).commit()
+                                .replace(R.id.container, fill_profile).commit()
 
 
                             //  Toast.makeText(activity, "", Toast.LENGTH_SHORT).show()
@@ -105,7 +108,7 @@ class OtpFragment : Fragment() {
                         }
                         else if(it.agent.is_registered == 1) {
 
-                            Toast.makeText(activity, "Already register", Toast.LENGTH_SHORT).show()
+//                            Toast.makeText(activity, "Already register", Toast.LENGTH_SHORT).show()
                             val intent = Intent(activity, HomeActivity_dash::class.java)
                             startActivity(intent)
                             (activity as Activity)
