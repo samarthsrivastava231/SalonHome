@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.salonvender.Data_Class.Fill_Profile
+import com.example.salonvender.Data_Class.Home_data.Home_data
 import com.example.salonvender.Data_Class.LoginOtpData_class
 import com.example.salonvender.LoginAccountRepository
 import okhttp3.RequestBody
@@ -13,6 +14,7 @@ class LoginViewModel : ViewModel() {
     private var sendOtp: MutableLiveData<LoginAccountData>? = null
     private var recieveOtp: MutableLiveData<LoginOtpData_class>? = null
     private var upload: MutableLiveData<Fill_Profile>? = null
+    private var homeData : MutableLiveData<Home_data>? = null
 
     fun sendAllOtp(hashmap: HashMap<String, String>): LiveData<LoginAccountData> {
         sendOtp = LoginAccountRepository.sendAllOtp(hashmap)
@@ -64,6 +66,11 @@ class LoginViewModel : ViewModel() {
         return upload!!
 
 
+    }
+
+    fun getHomeData():MutableLiveData<Home_data>{
+        homeData = LoginAccountRepository.home()
+        return homeData!!
     }
 
 

@@ -84,37 +84,45 @@ class OtpFragment : Fragment() {
                     //Log.d("aaaa", "aaaa")
 
 
-
                     if (it.status) {
 
 
                         if (it.agent.is_registered == 0) {
 
-                            Toast.makeText(this.activity, " Please Fill Your Details here ", Toast.LENGTH_SHORT).show()
-
-                            val fill_profile = Fill_Profile()
+                            Toast.makeText(this.activity, "Access", Toast.LENGTH_SHORT).show()
+                            val fillProfile = Fill_Profile()
                             PrefManager.getInstance(requireContext())!!.keyIsLoggedIn = true
                             PrefManager.getInstance(requireContext())!!.userDetail = it
-                            val bundle = Bundle()
 
-                            bundle.putString("phone", phone)
-                            fill_profile.arguments = bundle
                             requireActivity().supportFragmentManager.beginTransaction()
-                                .replace(R.id.container, fill_profile).commit()
+                                .replace(R.id.container, fillProfile).commit()
 
 
                             //  Toast.makeText(activity, "", Toast.LENGTH_SHORT).show()
 
-                        }
-                        else if(it.agent.is_registered == 1) {
+                        } else {
+                            if (it.agent.is_approved == 0) {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "it is not approved",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                requireActivity().supportFragmentManager.beginTransaction()
+                                    .replace(R.id.container, LoginFragment()).commit()
 
-//                            Toast.makeText(activity, "Already register", Toast.LENGTH_SHORT).show()
-                            val intent = Intent(activity, HomeActivity_dash::class.java)
-                            startActivity(intent)
-                            (activity as Activity)
+                            }
+                            else{
+
+                                //   Toast.makeText(activity, "Already register", Toast.LENGTH_SHORT).show()
+                                val intent = Intent(activity, HomeActivity_dash::class.java)
+                                startActivity(intent)
+                                (activity as Activity)
+                                requireActivity().finish()
+
+                            }
+
                         }
-                    }
-                    else {
+                    } else {
                         Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
                     }
 

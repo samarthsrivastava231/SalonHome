@@ -5,6 +5,7 @@ import android.text.Html
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.salonvender.R
 import com.example.salonvender.databinding.ActivityHomeDashBinding
@@ -17,6 +18,11 @@ import com.example.salonvender.fragment.SalesFragment
 class HomeActivity_dash : AppCompatActivity() {
 
     lateinit var binding: ActivityHomeDashBinding
+
+    val homeFragment = HomeFragment()
+    val appointmentFragment = AppointmentFragment()
+    val salesFragment = SalesFragment()
+    val accountFragment = AccountFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home_dash)
@@ -32,25 +38,17 @@ class HomeActivity_dash : AppCompatActivity() {
         actionBar?.title = Html.fromHtml("<font color='#FFFFFF'>ActionBar-title </font>")
 
 
-        val fgTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-        fgTransaction.replace(R.id.container, HomeFragment())
-        fgTransaction.commit()
-
-        val homeFragment = HomeFragment()
-        val appointmentFragment = AppointmentFragment()
-        val salesFragment = SalesFragment()
-        val accountFragment = AccountFragment()
         //val mainFragment = HomeFragment()
 
-        setCurrentFragment(homeFragment)
+        loadFragment(homeFragment)
 
         binding.bottomNegivation.setOnItemSelectedListener { item ->
             when (item.itemId) {
 
-                R.id.Appointment -> setCurrentFragment(appointmentFragment)
-                R.id.sales -> setCurrentFragment(salesFragment)
-                R.id.account -> setCurrentFragment(accountFragment)
-                R.id.home -> setCurrentFragment(homeFragment)
+                R.id.Appointment -> loadFragment(appointmentFragment)
+                R.id.sales -> loadFragment(salesFragment)
+                R.id.account -> loadFragment(accountFragment)
+                R.id.home -> loadFragment(homeFragment)
 
 
             }
@@ -60,10 +58,19 @@ class HomeActivity_dash : AppCompatActivity() {
 
     }
 
-    private fun setCurrentFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.container, fragment).commit()
-        }
+    private fun loadFragment(fragment: Fragment) {
 
+        val backStateName = fragment.javaClass.name
+        val fragmentTag = backStateName
+        val manager: FragmentManager = supportFragmentManager
+        val fragmentPopped = manager.popBackStackImmediate(backStateName, 1)
+        if (!fragmentPopped && manager.findFragmentByTag(fragmentTag) == null) {
+            //fragment not in back stack, create it.
+            val ft = manager.beginTransaction()
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            ft.replace(binding.container.id, fragment, fragmentTag)
+            ft.commit()
+        }
     }
+
 }

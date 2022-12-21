@@ -1,6 +1,8 @@
 package com.example.salonvender.`interface`
 
 import com.example.salonvender.Data_Class.Fill_Profile
+import com.example.salonvender.Data_Class.Home_data.Home_data
+
 import com.example.salonvender.Data_Class.LoginOtpData_class
 import com.example.salonvender.model.LoginAccountData
 import okhttp3.RequestBody
@@ -16,6 +18,9 @@ interface ApiInterface {
 
     @POST("saloon/api/login")
     fun logInApi(@Body data: HashMap<String, String>): Call<LoginOtpData_class>
+
+    @GET("/saloon/api/home")
+    fun home():Call<Home_data>
 
     /* @POST("saloon/api/update-profile")
       fun upload(@Body data: HashMap<String, String>):Call<Fill_Profile>*/

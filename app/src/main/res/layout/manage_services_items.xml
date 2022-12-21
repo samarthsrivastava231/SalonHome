@@ -4,9 +4,6 @@
 
     <data>
 
-        <variable
-            name="item"
-            type="com.example.salonvender.model.Manage_service_model" />
 
     </data>
 
@@ -51,9 +48,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/poppins"
-                    android:text="@{item.text}"
                     android:textColor="#296064"
-                    android:textSize="12dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/kaichi"
                     app:layout_constraintStart_toStartOf="@+id/kaichi"

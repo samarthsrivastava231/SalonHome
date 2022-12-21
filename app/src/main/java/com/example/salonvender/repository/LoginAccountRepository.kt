@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.salonvender.Data_Class.Fill_Profile
+import com.example.salonvender.Data_Class.Home_data.Home_data
 import com.example.salonvender.Data_Class.LoginOtpData_class
 import com.example.salonvender.model.LoginAccountData
 import okhttp3.RequestBody
@@ -16,6 +17,7 @@ object LoginAccountRepository {
     private var sendOtp = MutableLiveData<LoginAccountData>()
     private var recieveOtp = MutableLiveData<LoginOtpData_class>()
     private var upload = MutableLiveData<Fill_Profile>()
+    private var homedata = MutableLiveData<Home_data>()
 
 
     fun sendAllOtp(hashmap: HashMap<String, String>): MutableLiveData<LoginAccountData> {
@@ -166,5 +168,20 @@ object LoginAccountRepository {
             }
         })
         return upload
+    }
+    fun home(): MutableLiveData<Home_data> {
+        val call = RestClient.inst.mRestService!!.home()
+        call.enqueue(object : retrofit2.Callback<Home_data> {
+            override fun onResponse(call: Call<Home_data>, response: Response<Home_data>) {
+                if (response.isSuccessful) {
+                    homedata.value = response.body()
+                }
+            }
+
+            override fun onFailure(call: Call<Home_data>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+        })
+        return homedata!!
     }
 }
