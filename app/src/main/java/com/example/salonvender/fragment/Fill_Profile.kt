@@ -9,7 +9,7 @@ import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
-import android.provider.OpenableColumns
+import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
@@ -31,6 +31,7 @@ import com.example.salonvender.model.LoginViewModel
 import com.example.salonvender.singalton_object.PrefManager
 import com.github.dhaval2404.imagepicker.ImagePicker
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -112,7 +113,7 @@ class Fill_Profile : Fragment() {
                 binding.genderItemCard.visibility = View.GONE
 
                 binding.Male.setOnClickListener {
-                    binding.Gender.text = binding.Male.text
+                    binding.Gender.text = binding.Male.text.toString().lowercase()
                     if (binding.genderItemCard.visibility == View.VISIBLE) {
                         binding.genderItemCard.visibility = View.GONE
                     }
@@ -120,7 +121,7 @@ class Fill_Profile : Fragment() {
                 }
 
                 binding.female.setOnClickListener {
-                    binding.Gender.text = binding.female.text
+                    binding.Gender.text = binding.female.text.toString().lowercase()
                     if (binding.genderItemCard.visibility == View.VISIBLE) {
                         binding.genderItemCard.visibility = View.GONE
                     }
@@ -130,7 +131,7 @@ class Fill_Profile : Fragment() {
             } else {
                 binding.genderItemCard.visibility = View.VISIBLE
                 binding.Male.setOnClickListener {
-                    binding.Gender.text = binding.Male.text
+                    binding.Gender.text = binding.Male.text.toString().lowercase()
                     if (binding.genderItemCard.visibility == View.VISIBLE) {
                         binding.genderItemCard.visibility = View.GONE
                     }
@@ -138,7 +139,7 @@ class Fill_Profile : Fragment() {
                 }
 
                 binding.female.setOnClickListener {
-                    binding.Gender.text = binding.female.text
+                    binding.Gender.text = binding.female.text.toString().lowercase()
                     if (binding.genderItemCard.visibility == View.VISIBLE) {
                         binding.genderItemCard.visibility = View.GONE
                     }
@@ -209,7 +210,7 @@ class Fill_Profile : Fragment() {
                 binding.salonCardItem.visibility = View.GONE
 
                 binding.salon.setOnClickListener {
-                    binding.salonMain.text = binding.salon.text
+                    binding.salonMain.text = binding.salon.text.toString().lowercase()
                     if (binding.salonCardItem.visibility == View.VISIBLE) {
                         binding.salonCardItem.visibility = View.GONE
 
@@ -219,28 +220,29 @@ class Fill_Profile : Fragment() {
 //                        }
 
                     }
+                    binding.shopNameCard.visibility = View.VISIBLE
 
                 }
 
-                binding.FREEESTILO.setOnClickListener {
-                    binding.salonMain.text = binding.FREEESTILO.text
+                binding.freeLancher.setOnClickListener {
+                    binding.salonMain.text = binding.freeLancher.text.toString().lowercase()
                     if (binding.salonCardItem.visibility == View.VISIBLE) {
                         binding.salonCardItem.visibility = View.GONE
 
+//                        if (binding.salon == binding.FREEESTILO) {
+//                            binding.locationCard.visibility = View.GONE
+//                        }
 
-                        if (binding.salon == binding.FREEESTILO) {
-                            binding.shopNameCard.visibility = View.GONE
-                            binding.locationCard.visibility = View.GONE
-
-                        }
                     }
+                    binding.shopNameCard.visibility = View.GONE
+
                 }
 
 
             } else {
                 binding.salonCardItem.visibility = View.VISIBLE
                 binding.salon.setOnClickListener {
-                    binding.salonMain.text = binding.salon.text
+                    binding.salonMain.text = binding.salon.text.toString().lowercase()
                     if (binding.salonCardItem.visibility == View.VISIBLE) {
                         binding.salonCardItem.visibility = View.GONE
 
@@ -249,34 +251,23 @@ class Fill_Profile : Fragment() {
 //                            binding.locationCard.visibility = View.GONE
 //                        }
                     }
+                    binding.shopNameCard.visibility = View.VISIBLE
 
                 }
-
-
-
-                binding.FREEESTILO.setOnClickListener {
-                    binding.salonMain.text = binding.FREEESTILO.text
+                binding.freeLancher.setOnClickListener {
+                    binding.salonMain.text = binding.freeLancher.text.toString().lowercase()
                     if (binding.salonCardItem.visibility == View.VISIBLE) {
                         binding.salonCardItem.visibility = View.GONE
 
-
 //                        if (binding.salon == binding.FREEESTILO) {
-//                            binding.shopNameCard.visibility = View.GONE
+                        binding.shopNameCard.visibility = View.GONE
 //                            binding.locationCard.visibility = View.GONE
 //                        }
+                        binding.shopNameCard.visibility = View.GONE
                     }
+
                 }
-
-
             }
-
-//            if(binding.salon==binding.FREEESTILO){
-//
-//                binding.shopNameCard.visibility = View.GONE
-//                binding.locationCard.visibility=View.GONE
-//
-//            }
-
         }
 
         binding.cancelCheck.setOnClickListener {
@@ -301,7 +292,7 @@ class Fill_Profile : Fragment() {
                 binding.genderCustomerItemCard.visibility = View.GONE
 
                 binding.customerMale.setOnClickListener {
-                    binding.GenderCustomer.text = binding.customerMale.text
+                    binding.GenderCustomer.text = binding.customerMale.text.toString().lowercase()
                     if (binding.genderCustomerItemCard.visibility == View.VISIBLE) {
                         binding.genderCustomerItemCard.visibility = View.GONE
                     }
@@ -309,14 +300,14 @@ class Fill_Profile : Fragment() {
                 }
 
                 binding.customerFemale.setOnClickListener {
-                    binding.GenderCustomer.text = binding.customerFemale.text
+                    binding.GenderCustomer.text = binding.customerFemale.text.toString().lowercase()
                     if (binding.genderCustomerItemCard.visibility == View.VISIBLE) {
                         binding.genderCustomerItemCard.visibility = View.GONE
                     }
                 }
 
                 binding.transGender.setOnClickListener {
-                    binding.GenderCustomer.text = binding.transGender.text
+                    binding.GenderCustomer.text = binding.transGender.text.toString().lowercase()
                     if (binding.genderCustomerItemCard.visibility == View.VISIBLE) {
                         binding.genderCustomerItemCard.visibility = View.GONE
                     }
@@ -326,7 +317,7 @@ class Fill_Profile : Fragment() {
             } else {
                 binding.genderCustomerItemCard.visibility = View.VISIBLE
                 binding.customerMale.setOnClickListener {
-                    binding.GenderCustomer.text = binding.customerMale.text
+                    binding.GenderCustomer.text = binding.customerMale.text.toString().lowercase()
                     if (binding.genderCustomerItemCard.visibility == View.VISIBLE) {
                         binding.genderCustomerItemCard.visibility = View.GONE
                     }
@@ -334,14 +325,14 @@ class Fill_Profile : Fragment() {
                 }
 
                 binding.customerFemale.setOnClickListener {
-                    binding.GenderCustomer.text = binding.customerFemale.text
+                    binding.GenderCustomer.text = binding.customerFemale.text.toString().lowercase()
                     if (binding.genderCustomerItemCard.visibility == View.VISIBLE) {
                         binding.genderCustomerItemCard.visibility = View.GONE
                     }
                 }
 
                 binding.transGender.setOnClickListener {
-                    binding.GenderCustomer.text = binding.transGender.text
+                    binding.GenderCustomer.text = binding.transGender.text.toString().lowercase()
                     if (binding.genderCustomerItemCard.visibility == View.VISIBLE) {
                         binding.genderCustomerItemCard.visibility = View.GONE
                     }
@@ -463,10 +454,27 @@ class Fill_Profile : Fragment() {
 //                binding.password.error = "create password"
 //            }
 //
-//            if (isEmpty(binding.cancelCheck)) {
+//            if (Cancel_Check_File == null) {
 //
-//                binding.cancelCheck.error = "create password"
+//                binding.cancelCheck.error = " Cancel Check is required."
 //            }
+
+
+//            if (Prof_IMG_FILE == null) {
+//
+//                Toast.makeText(context, " Profile image is required", Toast.LENGTH_SHORT).show()
+//            }
+//
+//            if (ID_File == null) {
+//
+//                binding.UploadIDProof.error = " ID Proof is required"
+//
+//            }
+//
+//            if (License_File == null) {
+//                binding.UploadLicense.error = "License is not Uploaded. "
+//            }
+//
 //            if (isEmpty(binding.conformPassword)) {
 //
 //                binding.conformPassword.error = "confirm password"
@@ -480,7 +488,7 @@ class Fill_Profile : Fragment() {
                     "Please accept terms and conditions ",
                     Toast.LENGTH_SHORT
                 ).show()
-                binding.termAndCondition.error = "Please accept terms and conditions "
+
                 return@setOnClickListener
             }
 
@@ -493,18 +501,18 @@ class Fill_Profile : Fragment() {
 //                        startActivity(intent)
 //                        (activity as Activity).overridePendingTransition(0, 0)
 
-
-            hashmap["email"] = binding.email.text.toString()
-            hashmap["name"] = binding.name.text.toString()
-            hashmap["phone"] = binding.phoneNo.text.toString()
-            hashmap["gender"] = binding.Gender.text.toString()
-            hashmap["dob"] = binding.dob.text.toString()
-            hashmap["vendor_type"] = "Salon"
-            hashmap["bank_name"] = binding.BankName.text.toString()
-            hashmap["account_holder_name"] = binding.AccountHolderName.toString()
-            hashmap["account_no"] = binding.AccountNo.text.toString()
-            hashmap["ifsc_code"] = binding.ifscCode.text.toString()
-
+//
+//            hashmap["email"] = binding.email.text.toString()
+//            hashmap["name"] = binding.name.text.toString()
+//            hashmap["phone"] = binding.phoneNo.text.toString()
+//            hashmap["gender"] = binding.Gender.text.toString()
+//            hashmap["dob"] = binding.dob.text.toString()
+//            hashmap["vendor_type"] = "Salon"
+//            hashmap["bank_name"] = binding.BankName.text.toString()
+//            hashmap["account_holder_name"] = binding.AccountHolderName.toString()
+//            hashmap["account_no"] = binding.AccountNo.text.toString()
+//            hashmap["ifsc_code"] = binding.ifscCode.text.toString()
+//
 
 //
 //            Toast.makeText(
@@ -516,44 +524,67 @@ class Fill_Profile : Fragment() {
             fun getRequestBody(str: String?): RequestBody =
                 str.toString().toRequestBody("text/plain".toMediaTypeOrNull())
 
+//
+//            var thumbnailBody: RequestBody? = null
+//            if (ID_File != null)
+//                thumbnailBody = ID_File?.asRequestBody("image/*".toMediaTypeOrNull())
+//            val ID_Path_part_val: MultipartBody.Part = MultipartBody.Part.Companion.createFormData(
+//                "id_proof_image", ID_File!!.name,
+//                thumbnailBody!!
+//            )
+//            var LicenceBody: RequestBody? = null
+//            if (License_File != null)
+//                LicenceBody = License_File?.asRequestBody("image/*".toMediaTypeOrNull())
+//            val Licence_part_val: MultipartBody.Part = MultipartBody.Part.Companion.createFormData(
+//                "licence_image",
+//                License_File!!.name,
+//                LicenceBody!!
+//            )
+//            var Cancel_CheckBody: RequestBody? = null
+//            if (Cancel_Check_File != null)
+//                Cancel_CheckBody =
+//                    Cancel_Check_File?.asRequestBody("image/*".toMediaTypeOrNull())
+//            val cancel_check_part_val: MultipartBody.Part =
+//                MultipartBody.Part.Companion.createFormData(
+//                    "check_image",
+//                    Cancel_Check_File!!.name,
+//                    Cancel_CheckBody!!
+//                )
+//            var userImage_Body: RequestBody? = null
+//            if (Prof_IMG_FILE != null)
+//                userImage_Body =
+//                    Prof_IMG_FILE?.asRequestBody("image/*".toMediaTypeOrNull())
+//            val user_Image_part_val: MultipartBody.Part =
+//                MultipartBody.Part.Companion.createFormData(
+//                    "user_image",
+//                    Prof_IMG_FILE!!.name,
+//                    userImage_Body!!
+//                )
+////            Log.d("token", PrefManager.getInstance(App.getInstance())!!.userDetail.token)
 
-            val thumbnailBody: RequestBody? = ID_File?.asRequestBody("image/*".toMediaTypeOrNull())
-//            val ID_Path_part_val: MultipartBody.Part = MultipartBody.Part.Companion.createFormData("id_proof_image", ID_File!!.name, thumbnailBody)
-            val LicenceBody: RequestBody? =
-                License_File?.asRequestBody("image/*".toMediaTypeOrNull())
-//            val Licence_part_val: MultipartBody.Part = MultipartBody.Part.Companion.createFormData("licence_image", ID_File!!.name, LicenceBody)
-            val Cancel_CheckBody: RequestBody? =
-                Cancel_Check_File?.asRequestBody("image/*".toMediaTypeOrNull())
-//            val cancel_check_part_val: MultipartBody.Part = MultipartBody.Part.Companion.createFormData("check_image", ID_File!!.name, Cancel_CheckBody)
-            val userImage_Body: RequestBody? =
-                Prof_IMG_FILE?.asRequestBody("image/*".toMediaTypeOrNull())
-//            val user_Image_part_val: MultipartBody.Part = MultipartBody.Part.Companion.createFormData("user_image", ID_File!!.name, userImage_Body)
-//            Log.d("token", PrefManager.getInstance(App.getInstance())!!.userDetail.token)
-
-            Log.d("token", PrefManager.getInstance(App.getInstance())!!.userDetail.token)
             viewModel.upload(
                 getRequestBody(binding.email.text.toString()),
-//                getRequestBody(binding.name.text.toString()),
-                getRequestBody("Vndor1"),
-//                getRequestBody(binding.phoneNo.text.toString()),
-                getRequestBody("7706064510"),
-                getRequestBody(binding.Male.text.toString()),
+                getRequestBody(binding.name.text.toString()),
+//                getRequestBody("Vndor1"),
+                getRequestBody(binding.phoneNo.text.toString()),
+//                getRequestBody("7706064510"),
+                getRequestBody(binding.Gender.text.toString()),
                 getRequestBody(binding.dob.text.toString()),
-                getRequestBody(binding.salon.text.toString()),
+                getRequestBody(binding.salonMain.text.toString()),
 //                getRequestBody("salon"),
                 getRequestBody(binding.BankName.text.toString()),
-                Cancel_CheckBody!!,
+//                cancel_check_part_val,
                 // getRequestBody(Cancel_Check_File?.path.toString()),
                 getRequestBody(binding.location.text.toString()),
 //                getRequestBody(Prof_IMG_FILE?.path.toString()),
-                userImage_Body!!,
-                thumbnailBody!!,
+//                user_Image_part_val,
+//                ID_Path_part_val,
                 // getRequestBody(ID_File?.path.toString()),
                 getRequestBody(binding.AccountHolderName.text.toString()),
                 // getRequestBody(License_File?.path.toString()),
-                LicenceBody!!,
+//                Licence_part_val,
                 getRequestBody(binding.AccountNo.text.toString()),
-                getRequestBody(binding.GenderCustomer.toString()),
+                getRequestBody(binding.GenderCustomer.text.toString()),
 //                getRequestBody("mens"),
                 getRequestBody(binding.ifscCode.text.toString())
 
@@ -576,11 +607,15 @@ class Fill_Profile : Fragment() {
 
 
           */
-                    Toast.makeText(requireActivity(), "Your details has been submitted. Pending for approval.  ", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireActivity(),
+                        "Your details has been submitted. Pending for approval.  ",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     Log.d("apiht", "onCreateView: res")
                     val intent = Intent(activity, HomeActivity::class.java)
                     startActivity(intent)
-//                    (activity as Activity).overridePendingTransition(0, 0)
+                    (activity as Activity).overridePendingTransition(0, 0)
                 } else {
                     Toast.makeText(
                         requireContext(),
@@ -596,13 +631,13 @@ class Fill_Profile : Fragment() {
 
 
 
-        binding.dob.setOnClickListener {
+        binding.dobCard.setOnClickListener {
 
             val formatDate = SimpleDateFormat("YYYY/MM/dd", Locale.US)
             val cal = Calendar.getInstance()
             val dataPicDialog = DatePickerDialog(
                 requireContext(),
-                android.R.style.Theme_DeviceDefault_Light_Dialog_MinWidth,
+                R.style.DialogTheme,
                 DatePickerDialog.OnDateSetListener { datePicker, i, i2, i3 ->
                     val selectDate = Calendar.getInstance()
                     selectDate.set(Calendar.YEAR, i)
@@ -723,10 +758,18 @@ class Fill_Profile : Fragment() {
 //                etFile.setText(imageUriTOFile.name.toString())
 //                val uri: Uri? = data!!.data
 
-                Prof_IMG_FILE = GetFileFromUriUsingBufferReader().getImageFile(
-                    requireContext().applicationContext,
-                    data?.data
-                )
+//                var selectedImageUri = data?.data
+//                val  path: String =getPathFromURI(selectedImageUri)
+//                if (path != null) {
+//                    Prof_IMG_FILE = File(path)
+//                    selectedImageUri = Uri.fromFile(Prof_IMG_FILE)
+//                }
+                Prof_IMG_FILE = File(data?.getData().toString());
+                if (Prof_IMG_FILE == null)
+                    Prof_IMG_FILE = GetFileFromUriUsingBufferReader().getImageFile(
+                        requireContext().applicationContext,
+                        data?.data
+                    )
 //                Prof_IMG_FILE = GetFileFromUriUsingBufferReader().getImageFile(
 //                    requireContext(),
 //                    uri
@@ -744,16 +787,21 @@ class Fill_Profile : Fragment() {
         }
 //
         else if (is_ID_Proof_Dialog_Active) {
-                if (resultCode ==  Activity.RESULT_OK) {
+            if (resultCode == Activity.RESULT_OK) {
 //                    ID_File = GetFileFromUriUsingBufferReader().getImageFile(requireContext(), data!!.data)
 //                  Toast.makeText(context, " " + data!!.data, Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, "myErrorsTest " + (resultCode == RESULT_OK))
+                Log.d(TAG, "myErrorsTest " + (resultCode == RESULT_OK))
 
-                    // Get the Uri of the selected file
+                // Get the Uri of the selected file
 //                    val uri = data?.data
 //                    val uriString = uri.toString()
+                ID_File = File(data?.getData().toString());
+                if (ID_File == null)
                     ID_File =
-                        GetFileFromUriUsingBufferReader().getImageFile(requireContext().applicationContext, data?.data)
+                        GetFileFromUriUsingBufferReader().getImageFile(
+                            requireContext().applicationContext,
+                            data?.data
+                        )
 //                    var displayName: String? = null
 //
 //                    Log.d(TAG, "onActivityResult: " + uriString)
@@ -782,20 +830,20 @@ class Fill_Profile : Fragment() {
 //                        Toast.LENGTH_SHORT
 //                    ).show()
 ////                    Log.d("aksjdhasd", new Docuuuu ().getFile(this, uri).getPath());
-                    binding.UploadIDProof.text = ID_File!!.name.toString() + ""
+                binding.UploadIDProof.text = ID_File!!.name.toString() + ""
 ////                    uploadPdf()
 
-                } else if (resultCode == ImagePicker.RESULT_ERROR) {
-                    Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT)
-                        .show()
-                } else {
-                    Toast.makeText(requireContext(), "Task Cancelled", Toast.LENGTH_SHORT).show()
+            } else if (resultCode == ImagePicker.RESULT_ERROR) {
+                Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                Toast.makeText(requireContext(), "Task Cancelled", Toast.LENGTH_SHORT).show()
 
-                }
+            }
             is_ID_Proof_Dialog_Active = false
         } else if (is_License_Upload_Dialog_Active) {
 
-                if (resultCode == Activity.RESULT_OK) {
+            if (resultCode == Activity.RESULT_OK) {
 //                    Toast.makeText(context, " " + data!!.data, Toast.LENGTH_SHORT).show()
 //                    Log.d(TAG, "myErrorsTest " + (resultCode == RESULT_OK))
 //                    // Get the Uri of the selected file
@@ -820,15 +868,18 @@ class Fill_Profile : Fragment() {
 //                        displayName = License_File!!.name
 //                    }
 //                    binding.UploadLicense.text = ""
+                License_File = File(data?.getData().toString());
+                if (License_File == null)
 //                    Log.d("aksjdhasd", License_File!!.path)
 ////                    Log.d("aksjdhasd",new Docuuuu().getFile(this,uri).getPath());
-                    License_File = GetFileFromUriUsingBufferReader().getImageFile(requireContext().applicationContext,
+                    License_File = GetFileFromUriUsingBufferReader().getImageFile(
+                        requireContext().applicationContext,
                         data?.data
                     )
 //
 ////                Toast.makeText(context, ""+ License_File!!.name +" :-> "+License_File!!.path, Toast.LENGTH_SHORT).show()
 //                    //                    Log.d("aksjdhasd",new Docuuuu().getFile(this,uri).getPath());
-                    binding.UploadLicense.text = License_File?.name + ""
+                binding.UploadLicense.text = License_File?.name + ""
 
 //                uploadPdf(GetFileFromUriUsingBufferReader().getFile(this, uri!!))
 
@@ -842,7 +893,7 @@ class Fill_Profile : Fragment() {
             is_License_Upload_Dialog_Active = false
 //            ID_REQ_CODE = 0
         } else if (is_Cancel_checkDialog_Active) {
-                if (resultCode == Activity.RESULT_OK) {
+            if (resultCode == Activity.RESULT_OK) {
 //                 Toast.makeText(context, " " + data!!.data, Toast.LENGTH_SHORT).show()
 //                 Log.d(TAG, "myErrorsTest " + (resultCode == RESULT_OK))
 //                 /*    if (data!=null && data.getData()!=null){
@@ -890,13 +941,13 @@ class Fill_Profile : Fragment() {
 //                uploadPdf(GetFileFromUriUsingBufferReader().getFile(this, uri!!))
 
 
-                    /*    if (data!=null && data.getData()!=null){
-                try {
-                    Log.d("akjshdasd", PathUtil.getPath(this,data.getData()));
-                } catch (URISyntaxException e) {
-                    e.printStackTrace();
-                }
-            }*/
+                /*    if (data!=null && data.getData()!=null){
+            try {
+                Log.d("akjshdasd", PathUtil.getPath(this,data.getData()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }*/
 //
 //                    // Get the Uri of the selected file
 //                    val uri = data!!.data
@@ -926,11 +977,21 @@ class Fill_Profile : Fragment() {
 //
 //                    //                    Log.d("aksjdhasd",new Docuuuu().getFile(this,uri).getPath());
 ////
+                Cancel_Check_File = File(data?.getData().toString());
+                if (Cancel_Check_File == null)
+//                Cancel_Check_File =
+//                    GetFileFromUriUsingBufferReader().getImageFile(
+//                        requireContext().applicationContext,
+//                        data?.data
+//                    )
                     Cancel_Check_File =
-                        GetFileFromUriUsingBufferReader().getImageFile(requireContext().applicationContext, data?.data)
+                        GetFileFromUriUsingBufferReader().getImageFile(
+                            requireContext().applicationContext,
+                            data?.data
+                        )
 ////                 uploadPdf(GetFileFromUriUsingBufferReader().getFile(this, uri!!))
 
-                    binding.cancelCheck.text = Cancel_Check_File?.name.toString()
+                binding.cancelCheck.text = Cancel_Check_File?.name.toString()
 //
 //                } else if (resultCode == ImagePicker.RESULT_ERROR) {
 //                    Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT)
@@ -959,15 +1020,27 @@ class Fill_Profile : Fragment() {
 //            }
 //        }
 //        ID_REQ_CODE = 0
-                }else if (resultCode == ImagePicker.RESULT_ERROR) {
-                    Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT)
-                        .show()
-                } else {
-                    Toast.makeText(requireContext(), "Task Cancelled", Toast.LENGTH_SHORT).show()
+            } else if (resultCode == ImagePicker.RESULT_ERROR) {
+                Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                Toast.makeText(requireContext(), "Task Cancelled", Toast.LENGTH_SHORT).show()
 
-                }
+            }
             is_Cancel_checkDialog_Active = false
         }
+    }
+
+    private fun getPathFromURI(selectedImageUri: Uri?): String {
+        var res: String? = null
+        val cursor: Cursor? =
+            this.context?.contentResolver?.query(selectedImageUri!!, null, null, null, null)
+        if (cursor!!.moveToFirst()) {
+            val column_index: Int = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+            res = cursor.getString(column_index)
+        }
+        cursor.close()
+        return res!!
     }
 }
 

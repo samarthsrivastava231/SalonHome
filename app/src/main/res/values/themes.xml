@@ -9,4 +9,7 @@
 
         <!-- Customize your theme here. -->
     </style>
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">#87CFD6</item>
+    </style>
 </resources>

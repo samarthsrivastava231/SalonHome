@@ -164,6 +164,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="4dp"
+                            android:id="@+id/dob_card"
                             android:layout_marginTop="20dp"
                             android:background="@drawable/rectangle"
                             app:cardCornerRadius="20dp"
@@ -305,7 +306,7 @@
                                     app:layout_constraintTop_toTopOf="parent" />
 
                                 <androidx.appcompat.widget.AppCompatTextView
-                                    android:id="@+id/FREE_ESTILO"
+                                    android:id="@+id/free_lancher"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins"
@@ -485,7 +486,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="20dp"
-                                android:inputType="text"
+                                android:inputType="number"
                                 android:hint="Account No." />
 
                             <androidx.appcompat.widget.AppCompatEditText
