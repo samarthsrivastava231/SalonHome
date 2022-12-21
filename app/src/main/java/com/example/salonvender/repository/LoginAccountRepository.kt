@@ -136,7 +136,7 @@ object LoginAccountRepository {
         @Part("bank_name") bank_name: RequestBody,
 //        @Part("check_image") check_image: MultipartBody.Part,
         @Part("location") location: RequestBody,
-//        @Part("user_image") user_image: MultipartBody.Part,
+//        @Part user_image: MultipartBody.Part,
 //        @Part("id_proof_image") id_proof_image: MultipartBody.Part,
         @Part("account_holder_name") account_holder_name: RequestBody,
 //        @Part("licence_image") licence_image: MultipartBody.Part,

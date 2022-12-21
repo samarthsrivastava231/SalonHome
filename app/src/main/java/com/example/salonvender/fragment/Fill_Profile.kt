@@ -3,11 +3,13 @@ package com.example.salonvender.fragment
 
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.app.ProgressDialog
 import android.app.appsearch.AppSearchResult.RESULT_OK
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
+import android.opengl.Visibility
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.TextUtils
@@ -16,6 +18,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
@@ -23,6 +26,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.canhub.cropper.CropImageContract
+import com.canhub.cropper.CropImageView
 import com.example.salonvender.GetFileFromUriUsingBufferReader
 import com.example.salonvender.R
 import com.example.salonvender.activity.App
@@ -153,7 +158,7 @@ class Fill_Profile : Fragment() {
 
         binding.profileImage.setOnClickListener {
 
-            PROFILE_IMG_UPLOAD_REQ_CODE = 1;
+/*            PROFILE_IMG_UPLOAD_REQ_CODE = 1;
             ImagePicker.with(this)
                 .crop()                    //Crop image(Optional), Check Customization for more option
                 .compress(1024)            //Final image size will be less than 1 MB(Optional)
@@ -161,7 +166,22 @@ class Fill_Profile : Fragment() {
                     1080,
                     1080
                 )    //Final image resolution will be less than 1080 x 1080(Optional)
-                .start()
+                .start()*/
+//           val gallery =
+//                Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+//            startActivityForResult(gallery, 2)
+             val cropImage = registerForActivityResult(CropImageContract()) { result ->
+                if (result.isSuccessful) {
+                    // Use the returned uri.
+                    val uriContent = result.uriContent
+                    val uriFilePath = result.getUriFilePath(requireContext()) // optional usage
+                    Prof_IMG_FILE= File(uriFilePath.toString())
+                } else {
+                    // An error occurred.
+                    val exception = result.error
+                }
+            }
+//            Prof_IMG_FILE= File(cropImage)
         }
 
         binding.cardIDProof.setOnClickListener {
@@ -274,15 +294,17 @@ class Fill_Profile : Fragment() {
             is_Cancel_checkDialog_Active = true
 //            ID_REQ_CODE = 4;
 //            AlertDialogInActive()
+
+//            val gallery =
+//                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+//            startActivityForResult(gallery, 100)
             ImagePicker.with(this@Fill_Profile)
                 .crop()                    //Crop image(Optional), Check Customization for more option
                 .compress(1024)            //Final image size will be less than 1 MB(Optional)
                 .maxResultSize(
                     1080,
                     1080
-                ).createIntent { intent ->
-                    startForProfileImageResult.launch(intent)
-                }    //Final image resolution will be less than 1080 x 1080(Optional)
+                )   //Final image resolution will be less than 1080 x 1080(Optional)
                 .start()
         }
 
@@ -363,9 +385,9 @@ class Fill_Profile : Fragment() {
 //
 //        }
 
-
         binding.submit.setOnClickListener {
 
+               binding.progressBar.visibility= View.VISIBLE
 //            if (isEmpty()) {
 //
 //                Toast.makeText(activity, "please fill mobile number", Toast.LENGTH_SHORT).show()
@@ -380,10 +402,12 @@ class Fill_Profile : Fragment() {
             if (isEmpty(binding.name)) {
 
                 binding.name.error = "Please fill name"
+                binding.progressBar.visibility= View.GONE
             }
 
             if (isEmpty2(binding.dob)) {
                 binding.dob.error = "Please fill dob"
+                binding.progressBar.visibility= View.GONE
 
 
             }
@@ -391,64 +415,77 @@ class Fill_Profile : Fragment() {
             if (isEmpty2(binding.Gender)) {
 
                 binding.Gender.error = "Please select Gender"
+                binding.progressBar.visibility= View.GONE
             }
 
             if (isEmpty2(binding.salon)) {
                 binding.salon.error = "Please select Vendor Type"
                 binding.name.requestFocus()
+                binding.progressBar.visibility= View.GONE
             }
 
             if (isEmpty(binding.shopName)) {
 
                 binding.shopName.error = "Please fill shop name"
+                binding.progressBar.visibility= View.GONE
             }
 
 
             if (isEmpty(binding.email)) {
 
                 binding.email.error = "Select your email id"
+                binding.progressBar.visibility= View.GONE
             } else {
 
                 pattern = Pattern.compile(EMAIL_PATTERN);
                 matcher = pattern.matcher(binding.email.toString());
+                binding.progressBar.visibility= View.GONE
 
             }
 
             if (isEmpty(binding.location)) {
 
                 binding.location.error = "Please fill location"
+                binding.progressBar.visibility= View.GONE
             }
 
             if (isEmpty2(binding.UploadIDProof)) {
 
                 binding.UploadIDProof.error = "Please select id proof"
+                binding.progressBar.visibility= View.GONE
             }
 
             if (isEmpty2(binding.UploadLicense)) {
                 binding.UploadLicense.error = "Please select License"
+                binding.progressBar.visibility= View.GONE
             }
 
             if (isEmpty(binding.BankName)) {
 
                 binding.BankName.error = "Please enter the Bank Name"
+                binding.progressBar.visibility= View.GONE
             }
             if (isEmpty(binding.AccountHolderName)) {
 
                 binding.AccountHolderName.error = "Please enter Account Holder Name"
+                binding.progressBar.visibility= View.GONE
             }
             if (isEmpty(binding.AccountNo)) {
 
                 binding.AccountNo.error = "Enter Account no"
+                binding.progressBar.visibility= View.GONE
             }
 
             if (isEmpty(binding.ifscCode)) {
 
                 binding.ifscCode.error = "Enter ifsc code"
+                binding.progressBar.visibility= View.GONE
             }
 
             if (isEmpty2(binding.GenderCustomer)) {
 
                 binding.GenderCustomer.error = "Please select customer's gender"
+                binding.progressBar.visibility= View.GONE
             }
 
 //            if (isEmpty(binding.password)) {
@@ -491,10 +528,11 @@ class Fill_Profile : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
 
+                binding.progressBar.visibility= View.GONE
                 return@setOnClickListener
             }
 
-            val hashmap = HashMap<String, String>()
+    //            val hashmap = HashMap<String, String>()
 
 
             // val loginFragment = LoginFragment()
@@ -562,7 +600,7 @@ class Fill_Profile : Fragment() {
 //                    Prof_IMG_FILE!!.name,
 //                    userImage_Body!!
 //                )
-////            Log.d("token", PrefManager.getInstance(App.getInstance())!!.userDetail.token)
+//            Log.d("token", PrefManager.getInstance(App.getInstance())!!.userDetail.token)
 
             viewModel.upload(
                 getRequestBody(binding.email.text.toString()),
@@ -618,6 +656,7 @@ class Fill_Profile : Fragment() {
                     val intent = Intent(activity, HomeActivity::class.java)
                     startActivity(intent)
                     (activity as Activity).overridePendingTransition(0, 0)
+                    binding.progressBar.visibility= View.GONE
                 } else {
                     Toast.makeText(
                         requireContext(),
@@ -625,6 +664,7 @@ class Fill_Profile : Fragment() {
                         Toast.LENGTH_SHORT
                     ).show()
                     Log.d("apiht", "onCreateView:results " + it.message + " -------> " + it.result)
+                    binding.progressBar.visibility= View.GONE
                 }
 
             })
@@ -766,8 +806,8 @@ class Fill_Profile : Fragment() {
 //                    Prof_IMG_FILE = File(path)
 //                    selectedImageUri = Uri.fromFile(Prof_IMG_FILE)
 //                }
-                Prof_IMG_FILE = File(data?.getData().toString());
-                if (Prof_IMG_FILE == null)
+//                Prof_IMG_FILE = File(data?.getData().toString());
+//                if (Prof_IMG_FILE == null)
                     Prof_IMG_FILE = GetFileFromUriUsingBufferReader().getImageFile(
                         requireContext().applicationContext,
                         data?.data
@@ -797,8 +837,8 @@ class Fill_Profile : Fragment() {
                 // Get the Uri of the selected file
 //                    val uri = data?.data
 //                    val uriString = uri.toString()
-                ID_File = File(data?.getData().toString());
-                if (ID_File == null)
+//                ID_File = File(data?.getData().toString());
+//                if (ID_File == null)
                     ID_File =
                         GetFileFromUriUsingBufferReader().getImageFile(
                             requireContext().applicationContext,
@@ -870,8 +910,8 @@ class Fill_Profile : Fragment() {
 //                        displayName = License_File!!.name
 //                    }
 //                    binding.UploadLicense.text = ""
-                License_File = File(data?.getData().toString());
-                if (License_File == null)
+//                License_File = File(data?.getData().toString());
+//                if (License_File == null)
 //                    Log.d("aksjdhasd", License_File!!.path)
 ////                    Log.d("aksjdhasd",new Docuuuu().getFile(this,uri).getPath());
                     License_File = GetFileFromUriUsingBufferReader().getImageFile(
@@ -978,9 +1018,16 @@ class Fill_Profile : Fragment() {
 //
 //
 //                    //                    Log.d("aksjdhasd",new Docuuuu().getFile(this,uri).getPath());
-////
-                Cancel_Check_File = File(data?.getData().toString());
-                if (Cancel_Check_File == null)
+//                var selectedImageUri = data?.data
+//                val path: String = getPathFromURI(selectedImageUri)
+//                if (path != null) {
+//                    Cancel_Check_File = File(path)
+//                    selectedImageUri = Uri.fromFile(Prof_IMG_FILE)
+//                }
+//                if(Cancel_Check_File == null)
+//                val file: File  = File(data?.data.toString());
+//                Cancel_Check_File= File(file.name)
+//                if (Cancel_Check_File == null)
 //                Cancel_Check_File =
 //                    GetFileFromUriUsingBufferReader().getImageFile(
 //                        requireContext().applicationContext,
@@ -1033,10 +1080,13 @@ class Fill_Profile : Fragment() {
         }
     }
 
+
     private fun getPathFromURI(selectedImageUri: Uri?): String {
         var res: String? = null
+
+        val proj = arrayOf(MediaStore.Images.Media.DATA)
         val cursor: Cursor? =
-            this.context?.contentResolver?.query(selectedImageUri!!, null, null, null, null)
+            this.context?.contentResolver?.query(selectedImageUri!!, proj, null, null, null)
         if (cursor!!.moveToFirst()) {
             val column_index: Int = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
             res = cursor.getString(column_index)

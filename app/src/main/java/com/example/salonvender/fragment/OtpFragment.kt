@@ -2,6 +2,7 @@ package com.example.salonvender.fragment
 
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -40,23 +41,25 @@ class OtpFragment : Fragment() {
         binding.mobileNumber.text = cpp_code + phone.toString()
 
         binding.back.setOnClickListener {
-
+            binding.progressBar.visibility= View.VISIBLE
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.container, Create_your_Account()).commit()
+            binding.progressBar.visibility= View.GONE
         }
 
 
         binding.nextBtn.setOnClickListener {
 
+            binding.progressBar.visibility= View.VISIBLE
             fun isEmpty(otppin: AppCompatEditText): Boolean {
 
                 val str: CharSequence = binding.otpPin.text.toString()
                 return TextUtils.isEmpty(str)
-
+                binding.progressBar.visibility = View.GONE
             }
 
             if (isEmpty(binding.otpPin)) {
-
+                binding.progressBar.visibility= View.GONE
                 Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show()
                 binding.otpPin.error = "please enter otp"
 
@@ -64,7 +67,6 @@ class OtpFragment : Fragment() {
 
 
                 viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
-
 
                 val hashmap = HashMap<String, String>()
                 hashmap["phone"] = phone.toString()
@@ -102,7 +104,7 @@ class OtpFragment : Fragment() {
                             requireActivity().supportFragmentManager.beginTransaction()
                                 .replace(R.id.container, fill_profile).commit()
 
-
+                            binding.progressBar.visibility= View.GONE
                             //  Toast.makeText(activity, "", Toast.LENGTH_SHORT).show()
 
                         }
@@ -112,10 +114,12 @@ class OtpFragment : Fragment() {
                             val intent = Intent(activity, HomeActivity_dash::class.java)
                             startActivity(intent)
                             (activity as Activity)
+                            binding.progressBar.visibility= View.GONE
                         }
                     }
                     else {
                         Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
+                        binding.progressBar.visibility= View.GONE
                     }
 
 
@@ -126,10 +130,11 @@ class OtpFragment : Fragment() {
         }
 
         binding.back.setOnClickListener {
+            binding.progressBar.visibility= View.VISIBLE
             val create_your_Account = Create_your_Account()
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.container, create_your_Account).commit()
-
+            binding.progressBar.visibility= View.GONE
         }
 
 
