@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragment.DayFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+           <me.ithebk.barchart.BarChart
+               android:id="@+id/Barchart"
+               android:layout_width="match_parent"
+               android:layout_height="200dp"
+               app:bar_type="vertical"
+               app:bar_show_auto_color="false"
+               app:bar_max_value="100"
+               app:bar_spaces="0dp"
+               app:bar_show_value="true"
+               app:bar_show_animation="true"
+               app:bar_width="15dp"
+               app:bar_color="@color/design_default_color_primary"
+               app:bar_text_color="@color/black"
+               app:layout_constraintTop_toTopOf="parent"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintEnd_toEndOf="parent"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/graph_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/graph"
+                android:visibility="gone"
+                android:adjustViewBounds="true"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+    </FrameLayout>
+</layout>

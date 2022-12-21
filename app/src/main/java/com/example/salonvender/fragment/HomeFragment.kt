@@ -6,23 +6,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.salonvender.R
-import com.example.salonvender.adapter.Appointment_Adapter
-import com.example.salonvender.adapter.Image_Slider_Adapter
-import com.example.salonvender.adapter.Mange_service_Adapter
-import com.example.salonvender.adapter.Top_service_Adapter
+import com.example.salonvender.adapter.*
 import com.example.salonvender.databinding.FragmentHomeBinding
 import com.example.salonvender.model.*
-
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
+import com.google.android.material.tabs.TabLayoutMediator
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import com.smarteist.autoimageslider.SliderAnimations
 
@@ -69,6 +66,7 @@ class HomeFragment : Fragment() {
             binding.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM)
             binding.imageSlider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION)
             binding.imageSlider.startAutoCycle()
+
 
 //        requireActivity().window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
 //        if (binding.drawerLayout.isDrawerOpen()  {
@@ -225,6 +223,38 @@ class HomeFragment : Fragment() {
             binding.negivationView.itemTextColor = ColorStates
 
             binding.negivationView.itemIconTintList = ColorStates
+
+
+            val viewPagerAdapter = View_Pager_Adapter(childFragmentManager,lifecycle)
+
+            binding.viewPager.adapter = viewPagerAdapter
+
+            TabLayoutMediator(binding.tabLayout,binding.viewPager){tab,position->
+
+                when(position){
+
+                    0-> tab.text = "Day"
+                    1-> tab.text = "Month"
+                    2-> tab.text = "Year"
+                }
+
+            }.attach()
+
+           /* binding.tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab) {
+                   var pos =    tab.position
+                    when(pos){
+                        0->
+
+                    }
+
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab) {}
+                override fun onTabReselected(tab: TabLayout.Tab) {}
+            })*/
+
+
 
 
         })
