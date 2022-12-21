@@ -280,7 +280,9 @@ class Fill_Profile : Fragment() {
                 .maxResultSize(
                     1080,
                     1080
-                )    //Final image resolution will be less than 1080 x 1080(Optional)
+                ).createIntent { intent ->
+                    startForProfileImageResult.launch(intent)
+                }    //Final image resolution will be less than 1080 x 1080(Optional)
                 .start()
         }
 
