@@ -1,5 +1,6 @@
 package com.example.salonvender.activity
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +20,18 @@ class Add_Services : AppCompatActivity() {
 
 
 //        addServicesBinding.categorySpinner.setAdapter(new ServicesCategoryAdapter(this, categoryList));
+
+
+        addServicesBinding.switchGender.textOn="Female"
+        addServicesBinding.switchGender.textOff="Male"
+
+        if(addServicesBinding.switchGender.isChecked) {
+//            addServicesBinding.switchGender.setTextColor("#Ffc0cb")
+//            addServicesBinding.switchGender.setBackgroundColor()
+
+        }
+        addServicesBinding.mrpPrice.paintFlags= 0
+        addServicesBinding.etOfferPrice.paintFlags= 0
         addServicesBinding.categoryCard.setOnClickListener {
 
 

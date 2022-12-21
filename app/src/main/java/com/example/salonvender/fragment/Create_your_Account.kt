@@ -32,9 +32,11 @@ class Create_your_Account : Fragment() {
 
         binding.buttonLoginNextBtn.setOnClickListener {
 
+            binding.progressBar.visibility= View.VISIBLE
             fun isEmpty(enter: AppCompatEditText): Boolean {
 
                 val str: CharSequence = binding.enter.text.toString()
+                binding.progressBar.visibility= View.GONE
                 return TextUtils.isEmpty(str)
 
             }
@@ -44,7 +46,7 @@ class Create_your_Account : Fragment() {
 
                 Toast.makeText(activity, "please fill mobile number", Toast.LENGTH_SHORT).show()
                 binding.enter.error="please fill mobile number"
-
+                binding.progressBar.visibility= View.GONE
             }
             else {
 
@@ -80,7 +82,6 @@ class Create_your_Account : Fragment() {
                         }
                         Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
 
-
                     })
 
 
@@ -93,6 +94,7 @@ class Create_your_Account : Fragment() {
 
                 }
 
+                binding.progressBar.visibility = View.GONE
             }
 
 

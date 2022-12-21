@@ -7,6 +7,7 @@ import com.example.salonvender.Data_Class.Fill_Profile
 import com.example.salonvender.Data_Class.Home_data.Home_data
 import com.example.salonvender.Data_Class.LoginOtpData_class
 import com.example.salonvender.model.LoginAccountData
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Response
@@ -135,17 +136,17 @@ object LoginAccountRepository {
         @Part("dob") dob: RequestBody,
         @Part("vendor_type") vendor_type: RequestBody,
         @Part("bank_name") bank_name: RequestBody,
-        @Part("check_image") check_image: RequestBody,
+//        @Part("check_image") check_image: MultipartBody.Part,
         @Part("location") location: RequestBody,
-        @Part("user_image") user_image: RequestBody,
-        @Part("id_proof_image") id_proof_image: RequestBody,
+//        @Part user_image: MultipartBody.Part,
+//        @Part("id_proof_image") id_proof_image: MultipartBody.Part,
         @Part("account_holder_name") account_holder_name: RequestBody,
-        @Part("licence_image") licence_image: RequestBody,
+//        @Part("licence_image") licence_image: MultipartBody.Part,
         @Part("account_no") account_no: RequestBody,
         @Part("service_for") service_for: RequestBody,
         @Part("ifsc_code") ifsc_code: RequestBody): MutableLiveData<Fill_Profile> {
-        val call = RestClient.inst.mRestService!!.uploadToApi(email,name,phone,gender,dob,vendor_type,bank_name,account_holder_name,account_no,ifsc_code, location, id_proof_image,licence_image,check_image,user_image,service_for)
-//        val call = RestClient.inst.mRestService!!.uploadToApi(email,name,phone,gender,dob,vendor_type,bank_name, location, account_holder_name,account_no, service_for,ifsc_code)
+//        val call = RestClient.inst.mRestService!!.uploadToApi(email,name,phone,gender,dob,vendor_type,bank_name,check_image,location, user_image, id_proof_image, account_holder_name, licence_image, account_no, service_for, ifsc_code)
+        val call = RestClient.inst.mRestService!!.uploadToApi(email,name,phone,gender,dob,vendor_type,bank_name, location,account_holder_name,account_no,service_for,ifsc_code)
 
         call.enqueue(object : retrofit2.Callback<Fill_Profile> {
             override fun onResponse(
@@ -159,7 +160,7 @@ object LoginAccountRepository {
                 }
                 else {
 
-                    Log.d("hit", "mErors :" )
+                    Log.d("hit", "mErors :"+ response.errorBody()!!.charStream().readText().toString() )
                 }
             }
 

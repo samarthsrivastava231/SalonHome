@@ -164,6 +164,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="4dp"
+                            android:id="@+id/dob_card"
                             android:layout_marginTop="20dp"
                             android:background="@drawable/rectangle"
                             app:cardCornerRadius="20dp"
@@ -305,12 +306,12 @@
                                     app:layout_constraintTop_toTopOf="parent" />
 
                                 <androidx.appcompat.widget.AppCompatTextView
-                                    android:id="@+id/FREE_ESTILO"
+                                    android:id="@+id/free_lancher"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins"
                                     android:padding="10dp"
-                                    android:text="FreeLancer"
+                                    android:text="Door Buddy"
                                     app:layout_constraintStart_toStartOf="@+id/salon"
                                     app:layout_constraintTop_toBottomOf="@+id/salon" />
 
@@ -485,7 +486,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="20dp"
-                                android:inputType="text"
+                                android:inputType="number"
                                 android:hint="Account No." />
 
                             <androidx.appcompat.widget.AppCompatEditText
@@ -527,7 +528,7 @@
                                 android:background="@drawable/rectangle"
                                 android:drawableEnd="@drawable/down"
                                 android:drawablePadding="20dp"
-                                android:hint="Salon Type"
+                                android:hint="Service Provided For"
                                 android:paddingVertical="20dp"
                                 android:fontFamily="@font/roboto"
                                 android:paddingStart="20dp"
@@ -666,7 +667,17 @@
 
             </androidx.core.widget.NestedScrollView>
 
-
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_centerHorizontal="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_margin="20dp"
+                android:visibility="gone" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </layout>

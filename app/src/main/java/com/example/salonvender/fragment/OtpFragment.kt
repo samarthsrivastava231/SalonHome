@@ -2,6 +2,7 @@ package com.example.salonvender.fragment
 
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -40,23 +41,25 @@ class OtpFragment : Fragment() {
         binding.mobileNumber.text = cpp_code + phone.toString()
 
         binding.back.setOnClickListener {
-
+            binding.progressBar.visibility= View.VISIBLE
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.container, Create_your_Account()).commit()
+            binding.progressBar.visibility= View.GONE
         }
 
 
         binding.nextBtn.setOnClickListener {
 
+            binding.progressBar.visibility= View.VISIBLE
             fun isEmpty(otppin: AppCompatEditText): Boolean {
 
                 val str: CharSequence = binding.otpPin.text.toString()
                 return TextUtils.isEmpty(str)
-
+                binding.progressBar.visibility = View.GONE
             }
 
             if (isEmpty(binding.otpPin)) {
-
+                binding.progressBar.visibility= View.GONE
                 Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show()
                 binding.otpPin.error = "please enter otp"
 
@@ -64,7 +67,6 @@ class OtpFragment : Fragment() {
 
 
                 viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
-
 
                 val hashmap = HashMap<String, String>()
                 hashmap["phone"] = phone.toString()
@@ -84,46 +86,40 @@ class OtpFragment : Fragment() {
                     //Log.d("aaaa", "aaaa")
 
 
+
                     if (it.status) {
 
 
                         if (it.agent.is_registered == 0) {
 
-                            Toast.makeText(this.activity, "Access", Toast.LENGTH_SHORT).show()
-                            val fillProfile = Fill_Profile()
+                            Toast.makeText(this.activity, " Please Fill Your Details here ", Toast.LENGTH_SHORT).show()
+
+                            val fill_profile = Fill_Profile()
                             PrefManager.getInstance(requireContext())!!.keyIsLoggedIn = true
                             PrefManager.getInstance(requireContext())!!.userDetail = it
+                            val bundle = Bundle()
 
+                            bundle.putString("phone", phone)
+                            fill_profile.arguments = bundle
                             requireActivity().supportFragmentManager.beginTransaction()
-                                .replace(R.id.container, fillProfile).commit()
+                                .replace(R.id.container, fill_profile).commit()
 
-
+                            binding.progressBar.visibility= View.GONE
                             //  Toast.makeText(activity, "", Toast.LENGTH_SHORT).show()
 
-                        } else {
-                            if (it.agent.is_approved == 0) {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "it is not approved",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                requireActivity().supportFragmentManager.beginTransaction()
-                                    .replace(R.id.container, LoginFragment()).commit()
-
-                            }
-                            else{
-
-                                //   Toast.makeText(activity, "Already register", Toast.LENGTH_SHORT).show()
-                                val intent = Intent(activity, HomeActivity_dash::class.java)
-                                startActivity(intent)
-                                (activity as Activity)
-                                requireActivity().finish()
-
-                            }
-
                         }
-                    } else {
+                        else if(it.agent.is_registered == 1) {
+
+//                            Toast.makeText(activity, "Already register", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(activity, HomeActivity_dash::class.java)
+                            startActivity(intent)
+                            (activity as Activity)
+                            binding.progressBar.visibility= View.GONE
+                        }
+                    }
+                    else {
                         Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
+                        binding.progressBar.visibility= View.GONE
                     }
 
 
@@ -134,10 +130,11 @@ class OtpFragment : Fragment() {
         }
 
         binding.back.setOnClickListener {
+            binding.progressBar.visibility= View.VISIBLE
             val create_your_Account = Create_your_Account()
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.container, create_your_Account).commit()
-
+            binding.progressBar.visibility= View.GONE
         }
 
 
